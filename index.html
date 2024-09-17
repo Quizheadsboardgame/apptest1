@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Iframes with Minimization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+    
+    <!-- Link the manifest file -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Meta for PWA -->
+    <meta name="theme-color" content="#38B6FF">
+    <meta name="description" content="A colorful iframe quiz app">
+
+    <style>
+        /* Your existing CSS code */
+        body {
+            margin: 0;
+            font-family: 'Baloo 2', cursive;
+            background-color: #38B6FF;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .iframe-container {
+            position: relative;
+            width: 90%;
+            height: 90%;
+            margin: 20px;
+            display: none;
+            z-index: 0;
+        }
+
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .iframe-container.active {
+            display: block;
+        }
+
+        .minimized {
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid black;
+            border-radius: 10px;
+            position: fixed;
+            z-index: 999;
+            transition: transform 0.2s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: transparent;
+        }
+
+        .red { background-image: url('https://i.imgur.com/RaS1oar.png'); top: 10px; left: 10px; }
+        .green { background-image: url('https://i.imgur.com/HXXQ5NI.png'); top: 10px; right: 10px; }
+        .orange { background-image: url('https://i.imgur.com/bRFX1lp.png'); bottom: 10px; left: 10px; }
+        .purple { background-image: url('https://i.imgur.com/VZUUjyW.png'); bottom: 10px; right: 10px; }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .logo {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1001;
+            height: 320px;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .minimized.active {
+            animation: bounce 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo Image -->
+    <img class="logo" src="https://i.imgur.com/qLzuPTL.png" alt="My Logo">
+
+    <div class="container">
+        <div class="iframe-container red-container active">
+            <button class="close-btn" onclick="minimize('red')">X</button>
+            <iframe id="red-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+
+        <div class="iframe-container green-container">
+            <button class="close-btn" onclick="minimize('green')">X</button>
+            <iframe id="green-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+
+        <div class="iframe-container orange-container">
+            <button class="close-btn" onclick="minimize('orange')">X</button>
+            <iframe id="orange-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+
+        <div class="iframe-container purple-container">
+            <button class="close-btn" onclick="minimize('purple')">X</button>
+            <iframe id="purple-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+    </div>
+
+    <div class="minimized red" onclick="maximize('red')" id="red-box"></div>
+    <div class="minimized green" onclick="maximize('green')" id="green-box"></div>
+    <div class="minimized orange" onclick="maximize('orange')" id="orange-box"></div>
+    <div class="minimized purple" onclick="maximize('purple')" id="purple-box"></div>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch(function(error) {
+                console.log('Service Worker registration failed:', error);
+            });
+        }
+
+        function minimize(color) {
+            document.querySelector('.' + color + '-container').classList.remove('active');
+        }
+
+        function maximize(color) {
+            const containers = document.querySelectorAll('.iframe-container');
+            containers.forEach(container => container.classList.remove('active'));
+            document.querySelector('.' + color + '-container').classList.add('active');
+            clearBoxText(color);
+
+            document.getElementById(color + '-box').classList.add('active');
+            setTimeout(() => {
+                document.getElementById(color + '-box').classList.remove('active');
+            }, 500);
+        }
+
+        function clearBoxText(color) {
+            document.getElementById(color + '-box').innerText = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            maximize('red');
+        });
+    </script>
+</body>
+</html>
