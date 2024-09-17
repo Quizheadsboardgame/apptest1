@@ -1,0 +1,22 @@
+{
+  "name": "QuizHeads",
+  "short_name": "QuizHeads",
+  "description": "A colorful iframe quiz app",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#38B6FF",
+  "theme_color": "#38B6FF",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/qLzuPTL.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.imgur.com/qLzuPTL.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
