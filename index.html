@@ -49,21 +49,23 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            justify-content: space-between;
-            width: 336px; /* Adjusted to accommodate the new button size */
+            flex-wrap: wrap;
+            justify-content: space-around;
+            width: 100%; /* Full width for responsiveness */
+            max-width: 360px; /* Maximum width to fit on a phone screen */
             z-index: 999;
         }
 
         .minimized {
-            width: 80px; /* Reduced width by 20% */
-            height: 80px; /* Reduced height by 20% */
+            width: 60px; /* Adjusted width for smaller screens */
+            height: 60px; /* Adjusted height for smaller screens */
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
             font-weight: bold;
-            font-size: 10px; /* Adjusted font size to fit text within the smaller image */
+            font-size: 8px; /* Adjusted font size to fit text within the smaller image */
             text-align: center;
             border-radius: 10px;
             background-size: cover;
@@ -71,6 +73,7 @@
             background-repeat: no-repeat; /* Ensure background image does not repeat */
             border: none; /* Removed black edge */
             box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Optional: add subtle shadow for better visibility */
+            margin: 5px; /* Added margin to ensure spacing between buttons */
         }
 
         .red { background-image: url('https://i.postimg.cc/vB8jFWX4/83.png'); }
@@ -84,7 +87,7 @@
             right: 10px;
             background-color: rgba(255, 255, 255, 0.7);
             border: none;
-            font-size: 20px;
+            font-size: 16px; /* Adjusted font size for smaller close button */
             font-weight: bold;
             cursor: pointer;
             z-index: 1000;
