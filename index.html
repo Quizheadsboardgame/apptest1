@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Links with Iframe</title>
+    <title>Multiple Persistent Iframes</title>
     <style>
         /* Basic reset for margins and padding */
         * {
@@ -21,6 +21,7 @@
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
+            overflow: hidden; /* Prevent scrollbars from appearing */
         }
 
         /* Container to hold the image row */
@@ -33,7 +34,7 @@
             justify-content: center;
             gap: 10px;
             padding: 20px;
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.5); /* Slight transparency to show content behind */
             z-index: 10;
         }
 
@@ -59,7 +60,7 @@
             }
         }
 
-        /* Iframe container for centered display */
+        /* Iframe container styling */
         .iframe-container {
             position: absolute;
             top: 50%;
@@ -67,8 +68,10 @@
             transform: translate(-50%, -50%);
             width: 80%;
             height: 80%;
-            display: none; /* Hidden by default */
+            display: none; /* Initially hidden */
             z-index: 1;
+            background: rgba(255, 255, 255, 0.7); /* Slight transparency */
+            border: 1px solid #000;
         }
 
         /* Iframe styling */
@@ -76,32 +79,46 @@
             width: 100%;
             height: 100%;
             border: none;
-            background: rgba(255, 255, 255, 0.7);
         }
     </style>
 </head>
 <body>
 
-    <!-- Iframe container -->
-    <div class="iframe-container" id="iframeContainer">
-        <iframe id="iframe" src=""></iframe>
+    <!-- Iframe containers for each image -->
+    <div id="iframe1" class="iframe-container">
+        <iframe id="frame1" src=""></iframe>
+    </div>
+    <div id="iframe2" class="iframe-container">
+        <iframe id="frame2" src=""></iframe>
+    </div>
+    <div id="iframe3" class="iframe-container">
+        <iframe id="frame3" src=""></iframe>
+    </div>
+    <div id="iframe4" class="iframe-container">
+        <iframe id="frame4" src=""></iframe>
     </div>
 
     <!-- Image container at the bottom -->
     <div class="image-row">
-        <img src="https://i.postimg.cc/vB8jFWX4/83.png" alt="Image 1" onclick="openIframe('https://quizheadsboardgame.github.io/selectquizv4/')">
-        <img src="https://i.postimg.cc/vBmPSGH9/84.png" alt="Image 2" onclick="openIframe('https://quizheadsboardgame.github.io/selectquizv4/')">
-        <img src="https://i.postimg.cc/qqh14QKv/85.png" alt="Image 3" onclick="openIframe('https://quizheadsboardgame.github.io/selectquizv4/')">
-        <img src="https://i.postimg.cc/ZRDwGXCQ/86.png" alt="Image 4" onclick="openIframe('https://quizheadsboardgame.github.io/selectquizv4/')">
+        <img src="https://i.postimg.cc/vB8jFWX4/83.png" alt="Image 1" onclick="showIframe(1, 'https://quizheadsboardgame.github.io/selectquizv4/')">
+        <img src="https://i.postimg.cc/vBmPSGH9/84.png" alt="Image 2" onclick="showIframe(2, 'https://quizheadsboardgame.github.io/selectquizv4/')">
+        <img src="https://i.postimg.cc/qqh14QKv/85.png" alt="Image 3" onclick="showIframe(3, 'https://quizheadsboardgame.github.io/selectquizv4/')">
+        <img src="https://i.postimg.cc/ZRDwGXCQ/86.png" alt="Image 4" onclick="showIframe(4, 'https://quizheadsboardgame.github.io/selectquizv4/')">
     </div>
 
     <script>
-        // Function to open the iframe and load the webpage
-        function openIframe(url) {
-            var iframeContainer = document.getElementById('iframeContainer');
-            var iframe = document.getElementById('iframe');
-            iframe.src = url; // Set the iframe source to the selected URL
-            iframeContainer.style.display = 'block'; // Show the iframe container
+        // Function to show the corresponding iframe and set its source
+        function showIframe(iframeNumber, url) {
+            var iframe = document.getElementById('frame' + iframeNumber);
+            var iframeContainer = document.getElementById('iframe' + iframeNumber);
+
+            // Check if iframe is already loaded
+            if (iframe.src === '') {
+                iframe.src = url; // Set the iframe source if it's not loaded
+            }
+            
+            // Display the iframe container
+            iframeContainer.style.display = 'block';
         }
     </script>
 </body>
