@@ -3,123 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiple Persistent Iframes</title>
+    <title>Colorful Iframes with Minimization</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
     <style>
-        /* Basic reset for margins and padding */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        /* Set the full-page background image */
         body {
-            background-image: url('https://i.imgur.com/EvjDN7G.png');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+            margin: 0;
+            font-family: 'Baloo 2', cursive;
+            background-color: #38B6FF;
             overflow: hidden; /* Prevent scrollbars from appearing */
+            background-image: url('https://i.imgur.com/EvjDN7G.png'); /* Set background image */
+            background-size: cover; /* Ensure the background covers the entire page */
         }
 
-        /* Container to hold the image row */
-        .image-row {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .container {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.5); /* Slight transparency to show content behind */
-            z-index: 10;
+            align-items: center;
+            height: 80vh; /* Reduced height to make room for the minimized buttons */
+            width: 100vw;
+            position: relative;
         }
 
-        /* Style for the clickable images */
-        .image-row img {
-            width: 100px;
-            height: 100px;
-            border: 2px solid #000;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        /* Add zoom effect on hover */
-        .image-row img:hover {
-            transform: scale(1.1);
-        }
-
-        /* Make images responsive */
-        @media (max-width: 600px) {
-            .image-row img {
-                width: 70px;
-                height: 70px;
-            }
-        }
-
-        /* Iframe container styling */
         .iframe-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80%;
-            height: 80%;
-            display: none; /* Initially hidden */
-            z-index: 1;
-            background: rgba(255, 255, 255, 0.7); /* Slight transparency */
-            border: 1px solid #000;
+            position: relative;
+            width: 90%;
+            height: 90%;
+            margin: 20px;
+            display: none;
+            z-index: 0;
         }
 
-        /* Iframe styling */
-        iframe {
+        .iframe-container iframe {
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        .iframe-container.active {
+            display: block;
+        }
+
+        .minimized-container {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: space-between;
+            width: 440px; /* Adjust based on button width and spacing */
+            z-index: 999;
+        }
+
+        .minimized {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px; /* Reduced font size to fit text within the image */
+            text-align: center;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat; /* Ensure background image does not repeat */
+            border: none; /* Removed black edge */
+            box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Optional: add subtle shadow for better visibility */
+        }
+
+        .red { background-image: url('https://i.postimg.cc/vB8jFWX4/83.png'); }
+        .green { background-image: url('https://i.postimg.cc/vBmPSGH9/84.png'); }
+        .orange { background-image: url('https://i.postimg.cc/qqh14QKv/85.png'); }
+        .purple { background-image: url('https://i.postimg.cc/ZRDwGXCQ/86.png'); }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
 
-    <!-- Iframe containers for each image -->
-    <div id="iframe1" class="iframe-container">
-        <iframe id="frame1" src=""></iframe>
-    </div>
-    <div id="iframe2" class="iframe-container">
-        <iframe id="frame2" src=""></iframe>
-    </div>
-    <div id="iframe3" class="iframe-container">
-        <iframe id="frame3" src=""></iframe>
-    </div>
-    <div id="iframe4" class="iframe-container">
-        <iframe id="frame4" src=""></iframe>
+    <div class="container">
+
+        <!-- Red iframe -->
+        <div class="iframe-container red-container active">
+            <button class="close-btn" onclick="minimize('red')">X</button>
+            <iframe id="red-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+
+        <!-- Green iframe -->
+        <div class="iframe-container green-container">
+            <button class="close-btn" onclick="minimize('green')">X</button>
+            <iframe id="green-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+
+        <!-- Orange iframe -->
+        <div class="iframe-container orange-container">
+            <button class="close-btn" onclick="minimize('orange')">X</button>
+            <iframe id="orange-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+
+        <!-- Purple iframe -->
+        <div class="iframe-container purple-container">
+            <button class="close-btn" onclick="minimize('purple')">X</button>
+            <iframe id="purple-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
+        </div>
+
     </div>
 
-    <!-- Image container at the bottom -->
-    <div class="image-row">
-        <img src="https://i.postimg.cc/vB8jFWX4/83.png" alt="Image 1" onclick="showIframe(1, 'https://quizheadsboardgame.github.io/selectquizv4/')">
-        <img src="https://i.postimg.cc/vBmPSGH9/84.png" alt="Image 2" onclick="showIframe(2, 'https://quizheadsboardgame.github.io/selectquizv4/')">
-        <img src="https://i.postimg.cc/qqh14QKv/85.png" alt="Image 3" onclick="showIframe(3, 'https://quizheadsboardgame.github.io/selectquizv4/')">
-        <img src="https://i.postimg.cc/ZRDwGXCQ/86.png" alt="Image 4" onclick="showIframe(4, 'https://quizheadsboardgame.github.io/selectquizv4/')">
+    <!-- Minimized buttons -->
+    <div class="minimized-container">
+        <div class="minimized red" onclick="maximize('red')" id="red-box">Please select</div>
+        <div class="minimized green" onclick="maximize('green')" id="green-box">Please select</div>
+        <div class="minimized orange" onclick="maximize('orange')" id="orange-box">Please select</div>
+        <div class="minimized purple" onclick="maximize('purple')" id="purple-box">Please select</div>
     </div>
 
     <script>
-        // Function to show the corresponding iframe and set its source
-        function showIframe(iframeNumber, url) {
-            var iframe = document.getElementById('frame' + iframeNumber);
-            var iframeContainer = document.getElementById('iframe' + iframeNumber);
-
-            // Check if iframe is already loaded
-            if (iframe.src === '') {
-                iframe.src = url; // Set the iframe source if it's not loaded
-            }
-            
-            // Display the iframe container
-            iframeContainer.style.display = 'block';
+        // Minimize function: Hides iframe and keeps minimized square visible
+        function minimize(color) {
+            document.querySelector('.' + color + '-container').classList.remove('active');
         }
+
+        // Maximize function: Shows iframe and hides other iframes
+        function maximize(color) {
+            const containers = document.querySelectorAll('.iframe-container');
+            containers.forEach(container => container.classList.remove('active'));
+            document.querySelector('.' + color + '-container').classList.add('active');
+            clearBoxText(color);
+        }
+
+        // Clear the text of minimized boxes once a quiz is selected
+        function clearBoxText(color) {
+            document.getElementById(color + '-box').innerText = '';
+        }
+
+        // By default, the first iframe (red) is open
+        document.addEventListener('DOMContentLoaded', () => {
+            maximize('red'); // Ensure the red iframe is open initially
+        });
     </script>
+
 </body>
 </html>
