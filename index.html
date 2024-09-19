@@ -3,189 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colorful Iframes with Minimization</title>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+    <title>Image Links at Bottom</title>
     <style>
-        body {
+        /* Basic reset for margins and padding */
+        * {
             margin: 0;
-            font-family: 'Baloo 2', cursive;
-            background-color: #38B6FF;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh; /* Reduced height */
-            width: 100vw;
-            position: relative;
-        }
-
-        .iframe-container {
-            position: relative;
-            width: 90%;
-            height: 90%;
-            margin: 20px;
-            display: none;
-            z-index: 0;
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .iframe-container.active {
-            display: block;
-        }
-
-        .minimized-container {
-            display: flex;
-            justify-content: center;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            gap: 10px; /* Spacing between buttons */
-            padding: 10px; /* Space from the bottom of the screen */
+            padding: 0;
             box-sizing: border-box;
         }
 
-        .minimized {
-            width: 200px; /* Double the size */
-            height: 200px; /* Double the size */
-            cursor: pointer;
+        /* Set the full-page background image */
+        body {
+            background-image: url('https://i.imgur.com/EvjDN7G.png');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Aligns images at the bottom */
+        }
+
+        /* Container to hold the image row */
+        .image-row {
             display: flex;
             justify-content: center;
-            align-items: center;
-            border: 3px solid black;
-            border-radius: 10px;
-            transition: transform 0.2s ease-in-out;
-            background-size: cover; /* Ensure image covers the button area */
-            background-position: center; /* Center the image */
-            background-repeat: no-repeat; /* Prevent repeating the image */
-            background-color: transparent; /* Ensure no background color */
+            gap: 10px; /* Adds space between images */
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5); /* Optional background for contrast */
         }
 
-        /* Minimized button images */
-        .red { background-image: url('https://i.imgur.com/RaS1oar.png'); }
-        .green { background-image: url('https://i.imgur.com/HXXQ5NI.png'); }
-        .orange { background-image: url('https://i.imgur.com/bRFX1lp.png'); }
-        .purple { background-image: url('https://i.imgur.com/VZUUjyW.png'); }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border: none;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1000;
+        /* Style for the clickable images */
+        .image-row a img {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #000;
+            transition: transform 0.3s ease;
         }
 
-        /* Logo styling */
-        .logo {
-            position: fixed;
-            top: 0; /* Adjusted to move the logo higher up */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1001;
-            height: 320px; /* Doubled size of the logo */
+        /* Add zoom effect on hover */
+        .image-row a img:hover {
+            transform: scale(1.1);
         }
 
-        /* Bounce animation */
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
+        /* Make images responsive */
+        @media (max-width: 600px) {
+            .image-row a img {
+                width: 70px;
+                height: 70px;
             }
         }
-
-        /* Add bounce effect when clicked */
-        .minimized.active {
-            animation: bounce 0.5s ease-in-out;
-        }
-
     </style>
 </head>
 <body>
-
-    <!-- Logo Image, positioned at the top and always visible -->
-    <img class="logo" src="https://i.imgur.com/qLzuPTL.png" alt="My Logo">
-
-    <div class="container">
-
-        <!-- Red iframe -->
-        <div class="iframe-container red-container active">
-            <button class="close-btn" onclick="minimize('red')">X</button>
-            <iframe id="red-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
-
-        <!-- Green iframe -->
-        <div class="iframe-container green-container">
-            <button class="close-btn" onclick="minimize('green')">X</button>
-            <iframe id="green-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
-
-        <!-- Orange iframe -->
-        <div class="iframe-container orange-container">
-            <button class="close-btn" onclick="minimize('orange')">X</button>
-            <iframe id="orange-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
-
-        <!-- Purple iframe -->
-        <div class="iframe-container purple-container">
-            <button class="close-btn" onclick="minimize('purple')">X</button>
-            <iframe id="purple-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
-
+    <!-- Image container at the bottom -->
+    <div class="image-row">
+        <a href="https://quizheadsboardgame.github.io/selectquizv4/" target="_blank">
+            <img src="https://i.postimg.cc/vB8jFWX4/83.png" alt="Image 1">
+        </a>
+        <a href="https://quizheadsboardgame.github.io/selectquizv4/" target="_blank">
+            <img src="https://i.postimg.cc/vBmPSGH9/84.png" alt="Image 2">
+        </a>
+        <a href="https://quizheadsboardgame.github.io/selectquizv4/" target="_blank">
+            <img src="https://i.postimg.cc/qqh14QKv/85.png" alt="Image 3">
+        </a>
+        <a href="https://quizheadsboardgame.github.io/selectquizv4/" target="_blank">
+            <img src="https://i.postimg.cc/ZRDwGXCQ/86.png" alt="Image 4">
+        </a>
     </div>
-
-    <!-- Minimized buttons container -->
-    <div class="minimized-container">
-        <div class="minimized red" onclick="maximize('red')" id="red-box"></div>
-        <div class="minimized green" onclick="maximize('green')" id="green-box"></div>
-        <div class="minimized orange" onclick="maximize('orange')" id="orange-box"></div>
-        <div class="minimized purple" onclick="maximize('purple')" id="purple-box"></div>
-    </div>
-
-    <script>
-        // Minimize function: Hides iframe and keeps minimized square visible
-        function minimize(color) {
-            document.querySelector('.' + color + '-container').classList.remove('active');
-        }
-
-        // Maximize function: Shows iframe and hides other iframes
-        function maximize(color) {
-            const containers = document.querySelectorAll('.iframe-container');
-            containers.forEach(container => container.classList.remove('active'));
-            document.querySelector('.' + color + '-container').classList.add('active');
-            clearBoxText(color);
-
-            // Apply bounce effect to the minimized button
-            document.getElementById(color + '-box').classList.add('active');
-            setTimeout(() => {
-                document.getElementById(color + '-box').classList.remove('active');
-            }, 500); // Remove the bounce class after the animation completes
-        }
-
-        // Clear the text of minimized boxes once a quiz is selected
-        function clearBoxText(color) {
-            document.getElementById(color + '-box').innerText = '';
-        }
-
-        // By default, the first iframe (red) is open
-        document.addEventListener('DOMContentLoaded', () => {
-            maximize('red'); // Ensure the red iframe is open initially
-        });
-    </script>
-
 </body>
 </html>
