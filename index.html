@@ -9,10 +9,11 @@
         body {
             margin: 0;
             font-family: 'Baloo 2', cursive;
-            background-color: #38B6FF;
+            background-color: #38B6FF; /* Initial blue color */
             overflow: hidden; /* Prevent scrollbars from appearing */
-            background-image: url('https://i.imgur.com/EvjDN7G.png'); /* Set background image */
             background-size: cover; /* Ensure the background covers the entire page */
+            background-image: none; /* Remove any background image */
+            transition: background 0.5s ease; /* Smooth background gradient transition */
         }
 
         .container {
@@ -138,12 +139,24 @@
             document.querySelector('.' + color + '-container').classList.remove('active');
         }
 
-        // Maximize function: Shows iframe and hides other iframes
+        // Maximize function: Shows iframe, hides others, and changes the background color
         function maximize(color) {
             const containers = document.querySelectorAll('.iframe-container');
             containers.forEach(container => container.classList.remove('active'));
             document.querySelector('.' + color + '-container').classList.add('active');
             clearBoxText(color);
+            changeBackgroundColor(color); // Change background gradient when iframe is selected
+        }
+
+        // Change the background to a gradient based on the selected square
+        function changeBackgroundColor(color) {
+            const gradientMap = {
+                'red': 'linear-gradient(135deg, #A569BD, #D2B4DE)', // Purple gradient
+                'green': 'linear-gradient(135deg, #E74C3C, #F1948A)', // Red gradient
+                'orange': 'linear-gradient(135deg, #77DD77, #ABEBC6)', // Green gradient
+                'purple': 'linear-gradient(135deg, #FFB347, #F9E79F)' // Orange gradient
+            };
+            document.body.style.background = gradientMap[color] || 'linear-gradient(135deg, #38B6FF, #85C1E9)'; // Default blue gradient
         }
 
         // Clear the text of minimized boxes once a quiz is selected
@@ -151,9 +164,9 @@
             document.getElementById(color + '-box').innerText = '';
         }
 
-        // By default, the first iframe (red) is open
+        // By default, the first iframe (red) is open, but start with blue background
         document.addEventListener('DOMContentLoaded', () => {
-            maximize('red'); // Ensure the red iframe is open initially
+            document.body.style.background = 'linear-gradient(135deg, #38B6FF, #85C1E9)'; // Initial blue gradient
         });
     </script>
 
