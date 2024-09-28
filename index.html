@@ -3,170 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colorful Iframes with Minimization</title>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
+    <title>Quiz Links</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+
         body {
+            font-family: 'Fredoka One', cursive; /* Balloon font */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             margin: 0;
-            font-family: 'Baloo 2', cursive;
-            background-color: #38B6FF; /* Initial blue color */
-            overflow: hidden; /* Prevent scrollbars from appearing */
-            background-size: cover; /* Ensure the background covers the entire page */
-            background-image: none; /* Remove any background image */
-            transition: background 0.5s ease; /* Smooth background gradient transition */
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0); /* Transparent background */
         }
-
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh; /* Reduced height to make room for the minimized buttons */
-            width: 100vw;
-            position: relative;
-        }
-
-        .iframe-container {
-            position: relative;
-            width: 90%;
-            height: 90%;
-            margin: 20px;
-            display: none;
-            z-index: 0;
-        }
-
-        .iframe-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .iframe-container.active {
-            display: block;
-        }
-
-        .minimized-container {
-            position: fixed;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            width: 100%; /* Full width for responsiveness */
-            max-width: 360px; /* Maximum width to fit on a phone screen */
-            z-index: 999;
-        }
-
-        .minimized {
-            width: 60px; /* Adjusted width for smaller screens */
-            height: 60px; /* Adjusted height for smaller screens */
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: bold;
-            font-size: 8px; /* Adjusted font size to fit text within the smaller image */
+        .search-box {
+            width: 50%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 2px solid #333;
+            margin-bottom: 20px;
             text-align: center;
-            border-radius: 10px;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat; /* Ensure background image does not repeat */
-            border: none; /* Removed black edge */
-            box-shadow: 0 0 5px rgba(0,0,0,0.3); /* Optional: add subtle shadow for better visibility */
-            margin: 5px; /* Added margin to ensure spacing between buttons */
         }
-
-        .red { background-image: url('https://i.postimg.cc/vB8jFWX4/83.png'); }
-        .green { background-image: url('https://i.postimg.cc/vBmPSGH9/84.png'); }
-        .orange { background-image: url('https://i.postimg.cc/qqh14QKv/85.png'); }
-        .purple { background-image: url('https://i.postimg.cc/ZRDwGXCQ/86.png'); }
-
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(255, 255, 255, 0.7);
+        .random-btn {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
             border: none;
-            font-size: 16px; /* Adjusted font size for smaller close button */
-            font-weight: bold;
+            border-radius: 5px;
             cursor: pointer;
-            z-index: 1000;
+            font-size: 18px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .random-btn:hover {
+            background-color: #555;
+        }
+        .box {
+            border: 2px solid #333;
+            border-radius: 10px;
+            width: 30%;
+            margin: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Lifted shadow */
+            background-color: white;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s; /* Smooth transition */
+        }
+        .box:hover {
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+        .box:active {
+            transform: translateY(4px); /* Click animation */
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+        }
+        a {
+            text-decoration: none;
+            color: black; /* Black text color */
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase; /* Capital letters */
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .box {
+                width: 45%;
+            }
+        }
+        @media (max-width: 480px) {
+            .box {
+                width: 90%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- Search Box -->
+    <input type="text" class="search-box" id="searchBox" placeholder="Search for a quiz...">
 
-        <!-- Red iframe -->
-        <div class="iframe-container red-container active">
-            <button class="close-btn" onclick="minimize('red')">X</button>
-            <iframe id="red-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
+    <!-- Random Button -->
+    <button class="random-btn" id="randomBtn">Random Quiz</button>
 
-        <!-- Green iframe -->
-        <div class="iframe-container green-container">
-            <button class="close-btn" onclick="minimize('green')">X</button>
-            <iframe id="green-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
-
-        <!-- Orange iframe -->
-        <div class="iframe-container orange-container">
-            <button class="close-btn" onclick="minimize('orange')">X</button>
-            <iframe id="orange-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
-
-        <!-- Purple iframe -->
-        <div class="iframe-container purple-container">
-            <button class="close-btn" onclick="minimize('purple')">X</button>
-            <iframe id="purple-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
-        </div>
-
-    </div>
-
-    <!-- Minimized buttons -->
-    <div class="minimized-container">
-        <div class="minimized red" onclick="maximize('red')" id="red-box">Please select</div>
-        <div class="minimized green" onclick="maximize('green')" id="green-box">Please select</div>
-        <div class="minimized orange" onclick="maximize('orange')" id="orange-box">Please select</div>
-        <div class="minimized purple" onclick="maximize('purple')" id="purple-box">Please select</div>
-    </div>
+    <!-- Quiz Boxes in Alphabetical Order -->
+    <div class="box" data-title="AEW"><a href="https://quizheadsboardgame.github.io/AEWv2/">AEW</a></div>
+    <div class="box" data-title="Altenative Music 1990-2010"><a href="https://quizheadsboardgame.github.io/Altenativemusicv2/">Alternative Music 1990-2010</a></div>
+    <div class="box" data-title="American Presidents"><a href="https://quizheadsboardgame.github.io/presidentsv1/">American Presidents</a></div>
+    <div class="box" data-title="Anime"><a href="https://quizheadsboardgame.github.io/animev1/">Anime</a></div>
+    <div class="box" data-title="Birds"><a href="https://quizheadsboardgame.github.io/birdsv1/">Birds</a></div>
+    <div class="box" data-title="Blink 182"><a href="https://quizheadsboardgame.github.io/blink192v1/">Blink 182</a></div>
+    <div class="box" data-title="Board Games"><a href="https://quizheadsboardgame.github.io/boardgamesv1/">Board Games</a></div>
+    <div class="box" data-title="Chelsea FC"><a href="https://quizheadsboardgame.github.io/chelseav1/">Chelsea FC</a></div>
+    <div class="box" data-title="Children's TV 2000-2024"><a href="https://quizheadsboardgame.github.io/ChildrensTvquizV2/">Children's TV 2000-2024</a></div>
+    <div class="box" data-title="Cult Classic Movies"><a href="https://quizheadsboardgame.github.io/cultclassicv2/">Cult Classic Movies</a></div>
+    <div class="box" data-title="Cult TV"><a href="https://quizheadsboardgame.github.io/CultTvv2/">Cult TV</a></div>
+    <div class="box" data-title="Disney Movies"><a href="https://quizheadsboardgame.github.io/Disneymoviesv3/">Disney Movies</a></div>
+    <div class="box" data-title="Famous Events"><a href="https://quizheadsboardgame.github.io/famouseventsv1/">Famous Events</a></div>
+    <div class="box" data-title="Famous Movie Quotes"><a href="https://quizheadsboardgame.github.io/famousmoviequotesv3/">Famous Movie Quotes</a></div>
+    <div class="box" data-title="Foreign Cinema"><a href="https://quizheadsboardgame.github.io/foreignV1/">Foreign Cinema</a></div>
+    <div class="box" data-title="General Knowledge"><a href="https://quizheadsboardgame.github.io/GeneralKnowledgev5/">General Knowledge</a></div>
+    <div class="box" data-title="George Michael"><a href="https://quizheadsboardgame.github.io/georgemichealv2/">George Michael</a></div>
+    <div class="box" data-title="Harry Potter"><a href="https://quizheadsboardgame.github.io/HarryPotterv2/">Harry Potter</a></div>
+    <div class="box" data-title="Horror"><a href="https://quizheadsboardgame.github.io/Horrorquizv4/">Horror</a></div>
+    <div class="box" data-title="Iconic 90's TV"><a href="https://quizheadsboardgame.github.io/iconic90stvV2/">Iconic 90's TV</a></div>
+    <div class="box" data-title="Iconic Movies"><a href="https://quizheadsboardgame.github.io/iconicmoviesv3/">Iconic Movies</a></div>
+    <div class="box" data-title="Limited Series"><a href="https://quizheadsboardgame.github.io/limited-series/">Prestige Limited Series</a></div>
+    <div class="box" data-title="Must Watch UK TV"><a href="https://quizheadsboardgame.github.io/mustwatchtvv2/">Must Watch UK TV</a></div>
+    <div class="box" data-title="Non-English Language TV"><a href="https://quizheadsboardgame.github.io/nonenglishtv1/">Non-English Language TV</a></div>
+    <div class="box" data-title="Oasis"><a href="https://quizheadsboardgame.github.io/oasisquizv2/">Oasis</a></div>
+    <div class="box" data-title="Oscar Winners"><a href="https://quizheadsboardgame.github.io/oscarwinnersv4/">Oscar Winners</a></div>
+    <div class="box" data-title="Pop Music"><a href="https://quizheadsboardgame.github.io/popmusicv1/">Pop Music</a></div>
+    <div class="box" data-title="Reality TV"><a href="https://quizheadsboardgame.github.io/realityTVV2/">Reality TV</a></div>
+    <div class="box" data-title="Rock Legends"><a href="https://quizheadsboardgame.github.io/rocklegendsquizv2/">Rock Legends</a></div>
+    <div class="box" data-title="Streaming Originals"><a href="https://quizheadsboardgame.github.io/StreamingORIGNALSV3/">Streaming Originals</a></div>
+    <div class="box" data-title="Superhero's Blockbusters"><a href="https://quizheadsboardgame.github.io/SuperherosBlockbustersV3/">Superhero's Blockbusters</a></div>
+    <div class="box" data-title="Taylor Swift"><a href="https://quizheadsboardgame.github.io/TaylorSwiftQuizv3/">Taylor Swift</a></div>
+    <div class="box" data-title="Things You Should Know by 10 Years Old"><a href="https://quizheadsboardgame.github.io/10thingsv2/">Things You Should Know by 10 Years Old</a></div>
+    <div class="box" data-title="Transformers"><a href="https://quizheadsboardgame.github.io/transformersquizv2/">Transformers</a></div>
+    <div class="box" data-title="UK Chart Toppers 2000-2024"><a href="https://quizheadsboardgame.github.io/hitmusicv1/">UK Chart Toppers 2000-2024</a></div>
+    <div class="box" data-title="UK Sports Champions 2000-2024"><a href="https://quizheadsboardgame.github.io/uksportchampionsv2/">UK Sports Champions 2000-2024</a></div>
+    <div class="box" data-title="WWE"><a href="https://quizheadsboardgame.github.io/wwequizv2/">WWE</a></div>
+    <div class="box" data-title="Wonders of the World"><a href="https://quizheadsboardgame.github.io/wondersworldv1/">Wonders of the World</a></div>
+    <div class="box" data-title="World Cup & Euro's"><a href="https://quizheadsboardgame.github.io/worldcupsandeurosv2/">World Cup & Euro's</a></div>
 
     <script>
-        // Minimize function: Hides iframe and keeps minimized square visible
-        function minimize(color) {
-            document.querySelector('.' + color + '-container').classList.remove('active');
-        }
+        // Search functionality
+        const searchBox = document.getElementById('searchBox');
+        const quizBoxes = document.querySelectorAll('.box');
 
-        // Maximize function: Shows iframe, hides others, and changes the background color
-        function maximize(color) {
-            const containers = document.querySelectorAll('.iframe-container');
-            containers.forEach(container => container.classList.remove('active'));
-            document.querySelector('.' + color + '-container').classList.add('active');
-            clearBoxText(color);
-            changeBackgroundColor(color); // Change background gradient when iframe is selected
-        }
+        searchBox.addEventListener('input', function() {
+            const searchText = searchBox.value.toLowerCase();
+            quizBoxes.forEach(function(box) {
+                const quizTitle = box.getAttribute('data-title').toLowerCase();
+                if (quizTitle.includes(searchText)) {
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                }
+            });
+        });
 
-        // Change the background to a gradient based on the selected square
-        function changeBackgroundColor(color) {
-            const gradientMap = {
-                'red': 'linear-gradient(135deg, #7B54DA, #A76CD5)', // Purple gradient matching first image
-                'green': 'linear-gradient(135deg, #F04428, #FF6F61)', // Red gradient matching second image
-                'orange': 'linear-gradient(135deg, #7DCD58, #B7E0B4)', // Green gradient matching third image
-                'purple': 'linear-gradient(135deg, #FA8F4C, #FBB03B)' // Orange gradient matching fourth image
-            };
-            document.body.style.background = gradientMap[color] || 'linear-gradient(135deg, #38B6FF, #85C1E9)'; // Default blue gradient
-        }
-
-        // Clear the text of minimized boxes once a quiz is selected
-        function clearBoxText(color) {
-            document.getElementById(color + '-box').innerText = '';
-        }
-
-        // By default, the first iframe (red) is open, but start with blue background
-        document.addEventListener('DOMContentLoaded', () => {
-            document.body.style.background = 'linear-gradient(135deg, #38B6FF, #85C1E9)'; // Initial blue gradient
+        // Random quiz functionality
+        const randomBtn = document.getElementById('randomBtn');
+        randomBtn.addEventListener('click', function() {
+            const visibleQuizzes = Array.from(quizBoxes).filter(box => box.style.display !== 'none');
+            const randomQuiz = visibleQuizzes[Math.floor(Math.random() * visibleQuizzes.length)];
+            if (randomQuiz) {
+                const link = randomQuiz.querySelector('a').href;
+                window.location.href = link;
+            }
         });
     </script>
 
