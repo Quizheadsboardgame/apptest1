@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colorful Iframes with Minimization</title>
+    <title>Colorful Iframes with Minimization and Timer</title>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2&display=swap" rel="stylesheet">
     <style>
         body {
@@ -16,6 +16,27 @@
             transition: background 0.5s ease; /* Smooth background gradient transition */
         }
 
+        .timer-container {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            color: #000; /* Default font color */
+        }
+
+        .countdown-timer {
+            font-weight: bold;
+            transition: color 0.5s; /* Smooth color transition for timer */
+        }
+
         .container {
             display: flex;
             justify-content: center;
@@ -23,6 +44,7 @@
             height: 80vh; /* Reduced height to make room for the minimized buttons */
             width: 100vw;
             position: relative;
+            margin-top: 60px; /* Space for the timer */
         }
 
         .iframe-container {
@@ -93,12 +115,18 @@
             cursor: pointer;
             z-index: 1000;
         }
+
+        .hidden {
+            display: none; /* Class to hide the timer */
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div class="timer-container" onclick="toggleTimer()">TIMER</div>
+    <div class="countdown-timer hidden" id="countdown-timer">45</div>
 
+    <div class="container">
         <!-- Red iframe -->
         <div class="iframe-container red-container active">
             <button class="close-btn" onclick="minimize('red')">X</button>
@@ -122,7 +150,6 @@
             <button class="close-btn" onclick="minimize('purple')">X</button>
             <iframe id="purple-iframe" src="https://quizheadsboardgame.github.io/selectquizv4/"></iframe>
         </div>
-
     </div>
 
     <!-- Minimized buttons -->
@@ -134,6 +161,47 @@
     </div>
 
     <script>
+        let timerInterval;
+        let isTimerActive = false;
+
+        // Function to toggle timer visibility
+        function toggleTimer() {
+            const timerDisplay = document.getElementById("countdown-timer");
+            if (isTimerActive) {
+                clearInterval(timerInterval);
+                timerDisplay.classList.add("hidden"); // Hide the timer
+                isTimerActive = false;
+            } else {
+                startTimer(45); // Start a 45-second timer
+                timerDisplay.classList.remove("hidden"); // Show the timer
+                isTimerActive = true;
+            }
+        }
+
+        // Function to start the countdown timer
+        function startTimer(duration) {
+            let timeLeft = duration;
+            const timerDisplay = document.getElementById("countdown-timer");
+            timerDisplay.innerText = timeLeft;
+            timerDisplay.style.color = '#000'; // Reset color to black
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = timeLeft;
+
+                // Change timer color to white if less than or equal to 10 seconds
+                if (timeLeft <= 10) {
+                    timerDisplay.style.color = '#FFF';
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    timerDisplay.classList.add("hidden"); // Hide the timer when it reaches 0
+                    isTimerActive = false;
+                }
+            }, 1000);
+        }
+
         // Minimize function: Hides iframe and keeps minimized square visible
         function minimize(color) {
             document.querySelector('.' + color + '-container').classList.remove('active');
@@ -154,8 +222,9 @@
                 'red': 'linear-gradient(135deg, #7B54DA, #A76CD5)', // Purple gradient matching first image
                 'green': 'linear-gradient(135deg, #F04428, #FF6F61)', // Red gradient matching second image
                 'orange': 'linear-gradient(135deg, #7DCD58, #B7E0B4)', // Green gradient matching third image
-                'purple': 'linear-gradient(135deg, #FA8F4C, #FBB03B)' // Orange gradient matching fourth image
+                'purple': 'linear-gradient(135deg, #FA8F4C, #FFB03A)' // Orange gradient matching fourth image
             };
+
             document.body.style.background = gradientMap[color] || 'linear-gradient(135deg, #38B6FF, #85C1E9)'; // Default blue gradient
         }
 
