@@ -17,19 +17,19 @@
         }
 
         .timer-container {
-            position: absolute;
-            top: 10px;
-            left: 50%;
-            transform: translateX(-50%);
+            position: fixed; /* Make the timer fixed at the top */
+            top: 0;
+            left: 0; /* Align to the left */
+            width: 100%; /* Full width of the screen */
             background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
             padding: 10px;
-            border-radius: 10px;
             text-align: center;
             font-size: 20px;
             cursor: pointer;
             z-index: 1000;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             color: #000; /* Default font color */
+            font-weight: bold; /* Bold text */
         }
 
         .countdown-timer {
@@ -123,8 +123,7 @@
 </head>
 <body>
 
-    <div class="timer-container" onclick="toggleTimer()">TIMER</div>
-    <div class="countdown-timer hidden" id="countdown-timer">45</div>
+    <div class="timer-container" onclick="toggleTimer()">TIMER: <span id="countdown-timer">45</span></div>
 
     <div class="container">
         <!-- Red iframe -->
@@ -169,11 +168,10 @@
             const timerDisplay = document.getElementById("countdown-timer");
             if (isTimerActive) {
                 clearInterval(timerInterval);
-                timerDisplay.classList.add("hidden"); // Hide the timer
                 isTimerActive = false;
+                timerDisplay.innerText = "45"; // Reset timer display
             } else {
                 startTimer(45); // Start a 45-second timer
-                timerDisplay.classList.remove("hidden"); // Show the timer
                 isTimerActive = true;
             }
         }
@@ -196,7 +194,7 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    timerDisplay.classList.add("hidden"); // Hide the timer when it reaches 0
+                    timerDisplay.innerText = "Time's up!"; // Display time's up message
                     isTimerActive = false;
                 }
             }, 1000);
@@ -241,3 +239,4 @@
 
 </body>
 </html>
+
